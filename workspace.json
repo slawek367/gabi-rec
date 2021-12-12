@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "hn-notebook": "apps/hn-notebook",
+    "hn-notebook-e2e": "apps/hn-notebook-e2e"
+  }
+}

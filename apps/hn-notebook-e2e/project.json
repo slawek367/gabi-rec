@@ -1,0 +1,28 @@
+{
+  "root": "apps/hn-notebook-e2e",
+  "sourceRoot": "apps/hn-notebook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/hn-notebook-e2e/cypress.json",
+        "devServerTarget": "hn-notebook:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "hn-notebook:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/hn-notebook-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["hn-notebook"]
+}
