@@ -18,9 +18,7 @@ export interface HeadCell<DataType> {
 
 export type HeadCellConfig<DataType> = HeadCell<DataType>[];
 
-interface DataBase {
-  objectID: number;
-}
+interface DataBase {}
 
 interface TableProps<DataType extends DataBase> {
   rows: DataType[];
@@ -31,7 +29,7 @@ interface TableProps<DataType extends DataBase> {
 export const Table = <DataType extends DataBase>({
   rows,
   cellsConfig,
-  rowsPerPage = 10,
+  rowsPerPage = 25,
 }: TableProps<DataType>) => {
   const [page, setPage] = useState(0);
 
@@ -54,7 +52,7 @@ export const Table = <DataType extends DataBase>({
   };
 
   return (
-    <Box>
+    <Box sx={{ width: '100%' }}>
       <Paper>
         <TableContainer>
           <MuiTable size={'medium'}>
@@ -73,7 +71,7 @@ export const Table = <DataType extends DataBase>({
                     <TableRow
                       hover
                       onClick={(event: MouseEvent<unknown>) =>
-                        console.log(event, row.objectID)
+                        console.log(event, row)
                       }
                       role="checkbox"
                       tabIndex={-1}

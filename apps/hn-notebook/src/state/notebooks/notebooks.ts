@@ -1,23 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SearchNotebook } from '../../types';
 
-interface NotebookState {
-  notebooks: SearchNotebook[];
+export interface NotebookState {
+  data: SearchNotebook[];
 }
 
 const initialState: NotebookState = {
-  notebooks: [],
+  data: [],
 };
 
 export const notebookSlice = createSlice({
-  name: 'notes',
+  name: 'notebooks',
   initialState,
   reducers: {
-    addNotebook: (state, { payload }: PayloadAction<SearchNotebook>) => {
-      state.notebooks.push(payload);
+    addNotebook: (state, { payload }: PayloadAction<string>) => {
+      state.data.push({
+        title: payload,
+        creation_date: new Date().toISOString(),
+        search_results: [],
+      });
     },
     deleteByTitle: (state, { payload }: PayloadAction<{ title: string }>) => {
-      state.notebooks.filter((notebook) => notebook.title !== payload.title);
+      return {
+        ...state,
+        data: state.data.filter((notebook) => notebook.title !== payload.title),
+      };
     },
   },
 });

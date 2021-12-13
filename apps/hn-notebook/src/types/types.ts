@@ -18,14 +18,3 @@ export interface SearchNotebook {
   creation_date: string;
   search_results: SearchResult[];
 }
-
-/*
-
-Widok Notebooks:
-- Tworzenie nowego notebooka (w modalu albo podstronie)
-- Przeglądanie notebooków (lista?)
-- Wyszukiwanie notebooków (search w liscie?)
-
-Home:
-- 
-*/

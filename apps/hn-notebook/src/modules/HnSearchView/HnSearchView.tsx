@@ -6,6 +6,8 @@ import Grid from '@mui/material/Grid';
 import { Table, HeadCellConfig } from '../../components';
 import { SearchResult } from '../../types';
 import { useHnSearch } from '../../components/HnSearchInput/useHnSearch';
+import { Typography } from '@mui/material';
+import { QueryErrorResetBoundary } from 'react-query';
 
 const cellsConfig: HeadCellConfig<SearchResult> = [
   {
@@ -37,7 +39,7 @@ const cellsConfig: HeadCellConfig<SearchResult> = [
 
 export const HnSearchView = () => {
   const { query } = useParams();
-  const { isLoading, data, refetch } = useHnSearch(query || '');
+  const { isLoading, isFetching, data, refetch } = useHnSearch(query || '');
 
   useEffect(() => {
     if (!data) {
@@ -45,7 +47,9 @@ export const HnSearchView = () => {
     }
   }, [data]);
 
-  if (isLoading) {
+  console.log(isLoading || isFetching);
+
+  if (isLoading || isFetching) {
     return (
       <Grid
         container
@@ -58,5 +62,21 @@ export const HnSearchView = () => {
     );
   }
 
-  return <Table rows={data || []} cellsConfig={cellsConfig} />;
+  return (
+    <Grid container>
+      <Grid
+        item
+        width={'100%'}
+        sx={{
+          bgcolor: '#ddd8d8',
+          padding: '8px',
+          textAlign: 'center',
+        }}
+        justifyContent={'center'}
+      >
+        <Typography>Search results for: {query}</Typography>
+      </Grid>
+      <Table key={query} rows={data || []} cellsConfig={cellsConfig} />
+    </Grid>
+  );
 };

@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import notebook from '../state/notebook/notebook';
+import notebooks, { NotebookState } from '../state/notebooks/notebooks';
+
+export interface GlobalState {
+  notebooks: NotebookState;
+}
 
 export default configureStore({
   reducer: {
-    notebook,
+    notebooks,
   },
   devTools: true,
 });

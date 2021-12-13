@@ -9,28 +9,30 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 
 import { HnSearchInput } from '../HnSearchInput';
 
-const pages = ['Hn Search'];
-
-const styles = {
-  appBar: {
-    backgroundColor: 'gray',
+const pages = [
+  {
+    label: 'Home',
+    url: '/',
   },
-};
+];
 
 export const AppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(
     null
   );
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.SyntheticEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (url?: string) => {
     setAnchorElNav(null);
+    url && navigate(url);
   };
 
   return (
@@ -47,7 +49,7 @@ export const AppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            HN Notebook
+            HN
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -74,14 +76,14 @@ export const AppBar = () => {
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={() => handleCloseNavMenu()}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map(({ label, url }) => (
+                <MenuItem key={label} onClick={() => handleCloseNavMenu(url)}>
+                  <Typography textAlign="center">{label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -92,16 +94,16 @@ export const AppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            HN Notebook
+            HN
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map(({ label, url }) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={label}
+                onClick={() => handleCloseNavMenu(url)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {label}
               </Button>
             ))}
           </Box>

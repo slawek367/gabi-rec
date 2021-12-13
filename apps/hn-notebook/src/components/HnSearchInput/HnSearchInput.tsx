@@ -9,12 +9,12 @@ import { useHnSearch } from './useHnSearch';
 
 export const HnSearchInput = () => {
   const [input, setInput] = useState('');
-  const { isLoading, refetch, data } = useHnSearch(input);
+  const { isLoading } = useHnSearch(input);
   const navigate = useNavigate();
 
   const search = async () => {
-    await refetch();
     navigate(`/hnsearch/${input}`);
+    setInput('');
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -25,7 +25,7 @@ export const HnSearchInput = () => {
 
   return (
     <TextField
-      sx={{ width: 300 }}
+      sx={{ width: 250 }}
       disabled={isLoading}
       id="outlined-basic"
       placeholder="Search Hacker News"
