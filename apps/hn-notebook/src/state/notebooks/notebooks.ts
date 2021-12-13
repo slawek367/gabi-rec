@@ -26,6 +26,9 @@ export const notebookSlice = createSlice({
         data: state.data.filter((notebook) => notebook.title !== payload.title),
       };
     },
+    addHNSearch: (state, { payload }: PayloadAction<string>) => {
+      //TODO
+    },
   },
 });
 
