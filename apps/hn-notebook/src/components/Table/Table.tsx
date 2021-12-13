@@ -8,16 +8,18 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { render } from 'react-dom';
 
 export interface HeadCell<DataType> {
   id: keyof DataType;
   label: string;
+  render?: (data: DataType) => JSX.Element | string | number;
 }
 
 export type HeadCellConfig<DataType> = HeadCell<DataType>[];
 
 interface DataBase {
-  id: number;
+  objectID: number;
 }
 
 interface TableProps<DataType extends DataBase> {
@@ -43,9 +45,12 @@ export const Table = <DataType extends DataBase>({
   const emptyRows = rowsPerPage * (1 + page) - rows.length;
 
   const renderCells = (row: DataType) => {
-    return Object.entries(row).map(([k, v]) => (
-      <TableCell key={k}>{v}</TableCell>
-    ));
+    return cellsConfig.map((cell, idx) => {
+      if (cell.render) {
+        return <TableCell key={idx}>{cell.render(row)}</TableCell>;
+      }
+      return <TableCell key={idx}>{row[cell.id] || '-'}</TableCell>;
+    });
   };
 
   return (
@@ -68,7 +73,7 @@ export const Table = <DataType extends DataBase>({
                     <TableRow
                       hover
                       onClick={(event: MouseEvent<unknown>) =>
-                        console.log(event, row.id)
+                        console.log(event, row.objectID)
                       }
                       role="checkbox"
                       tabIndex={-1}

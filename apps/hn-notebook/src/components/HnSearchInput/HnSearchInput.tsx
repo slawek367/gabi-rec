@@ -9,7 +9,7 @@ import { useHnSearch } from './useHnSearch';
 
 export const HnSearchInput = () => {
   const [input, setInput] = useState('');
-  const { isLoading, refetch } = useHnSearch(input);
+  const { isLoading, refetch, data } = useHnSearch(input);
   const navigate = useNavigate();
 
   const search = async () => {

@@ -5,13 +5,12 @@ export interface SearchQuery {
 }
 
 export interface SearchResult {
+  objectID: number;
   author: string; //login name
-  karma_points: number;
+  points: number;
   url: string;
-  creation_date: string;
-  hn_tags: string[];
-  search_query_id: string;
-  id: number;
+  created_at: string;
+  _tags: string[];
 }
 
 export interface SearchNotebook {

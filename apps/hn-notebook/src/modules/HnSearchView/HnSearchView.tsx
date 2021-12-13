@@ -1,39 +1,15 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
+
 import { Table, HeadCellConfig } from '../../components';
 import { SearchResult } from '../../types';
-
-const data: SearchResult[] = [
-  {
-    id: 1,
-    author: 'Some author',
-    karma_points: 10,
-    url: 'www.test.pl',
-    creation_date: '2020',
-    hn_tags: ['tag1', 'tag2'],
-    search_query_id: 'query=test',
-  },
-  {
-    id: 2,
-    author: 'Some author2',
-    karma_points: 100,
-    url: 'www.test2.pl',
-    creation_date: '2021',
-    hn_tags: ['tag1', 'tag2'],
-    search_query_id: 'query=test2',
-  },
-  {
-    id: 3,
-    author: 'Some author2',
-    karma_points: 100,
-    url: 'www.test2.pl',
-    creation_date: '2021',
-    hn_tags: ['tag1', 'tag2'],
-    search_query_id: 'query=test2',
-  },
-];
+import { useHnSearch } from '../../components/HnSearchInput/useHnSearch';
 
 const cellsConfig: HeadCellConfig<SearchResult> = [
   {
-    id: 'id',
+    id: 'objectID',
     label: 'Object id',
   },
   {
@@ -41,7 +17,7 @@ const cellsConfig: HeadCellConfig<SearchResult> = [
     label: 'HN Author',
   },
   {
-    id: 'karma_points',
+    id: 'points',
     label: 'Karma',
   },
   {
@@ -49,19 +25,38 @@ const cellsConfig: HeadCellConfig<SearchResult> = [
     label: 'Url',
   },
   {
-    id: 'creation_date',
+    id: 'created_at',
     label: 'Creation date',
   },
   {
-    id: 'hn_tags',
+    id: '_tags',
     label: 'Tags',
-  },
-  {
-    id: 'search_query_id',
-    label: 'Query ID',
+    render: (data) => data._tags.join(', '),
   },
 ];
 
 export const HnSearchView = () => {
-  return <Table rows={data} cellsConfig={cellsConfig} />;
+  const { query } = useParams();
+  const { isLoading, data, refetch } = useHnSearch(query || '');
+
+  useEffect(() => {
+    if (!data) {
+      refetch();
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return (
+      <Grid
+        container
+        height={150}
+        justifyContent={'center'}
+        alignContent={'center'}
+      >
+        <CircularProgress />
+      </Grid>
+    );
+  }
+
+  return <Table rows={data || []} cellsConfig={cellsConfig} />;
 };
