@@ -47,8 +47,6 @@ export const HnSearchView = () => {
     }
   }, [data]);
 
-  console.log(isLoading || isFetching);
-
   if (isLoading || isFetching) {
     return (
       <Grid
